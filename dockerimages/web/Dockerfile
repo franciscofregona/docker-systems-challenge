@@ -1,13 +1,13 @@
 FROM ubuntu:trusty
 
 # Set one or more individual labels
-LABEL com.example.version="0.0.1-beta"
-LABEL vendor="ACME Incorporated"
-LABEL com.example.release-date="2015-02-12"
-LABEL com.example.version.is-production=""
+LABEL cabify.web.version="0.0.1-beta"
+LABEL autor="FranciscoFregona"
+LABEL cabify.web.release-date="2018-04-19"
+LABEL cabify.web.version.is-production="false"
 
 RUN apt-get update && apt-get install -y \
-  python-bottle==0.12.13 \
+  python-bottle=0.12.13 \
   python-pip \
 && rm -rf /var/lib/apt/lists/*
 
