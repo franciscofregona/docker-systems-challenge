@@ -22,15 +22,19 @@ Se puede probar hacerlo con Ubuntu, pero seguro el tamaño del contenedor se dis
 futuro y evolucion de la solucion
  * Consul dockerfile: https://github.com/hashicorp/docker-consul/blob/389ad67978f3fb9c43ae270e31c2d7b121df46c0/0.X/Dockerfile
  * Instalacion de bottle en Alpine: https://hub.docker.com/r/devries/bottle/
-
+ * Swarm con los contenedores balanceados: https://medium.com/@nirgn/load-balancing-applications-with-haproxy-and-docker-d719b7c5b231
+ * Puertos en el docker-compose file: https://docs.docker.com/compose/compose-file/#ports
 ## Contenedores
 
  * web: contiene la app, el server bottle y el cliente/servidor de Consul.
+
  ** uso: __TODO__
+
  El primero se podría ejecutar distinto, para crear un servidor Consul
+ 
  O crear un servidor consul aparte con el contenedor directamente. 
 
- * haproxy: __TODO__
+ * haproxy: Segun el link en medium.com, basta con usar el pre-armado en _dockercloud/haproxy_
 
 ## Comandos
 
