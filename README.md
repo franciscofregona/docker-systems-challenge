@@ -20,6 +20,7 @@ Luego, para tener balanceo de carga, confiaremos en docker-compose.
  * https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#entrypoint
  * HAProxy funciona, NGinx no. https://thehftguy.com/2016/10/03/haproxy-vs-nginx-why-you-should-never-use-nginx-for-load-balancing/
 futuro y evolucion de la solucion
+ * Consul dockerfile: https://github.com/hashicorp/docker-consul/blob/389ad67978f3fb9c43ae270e31c2d7b121df46c0/0.X/Dockerfile
 
 #Respuestas
 __TODO__
