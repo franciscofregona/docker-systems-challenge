@@ -1,6 +1,8 @@
 #!/usr/bin/dumb-init /bin/sh
 set -e
+
 /usr/bin/python /opt/cabify/cabify.py &
+
 # Note above that we run dumb-init as PID 1 in order to reap zombie processes
 # as well as forward signals to all processes in its session. Normally, sh
 # wouldn't do either of these functions so we'd leak zombies as well as do
@@ -94,5 +96,8 @@ if [ "$1" = 'consul' ]; then
 
     set -- su-exec consul:consul "$@"
 fi
-#/usr/bin/python /opt/cabify/cabify.py &; 
-exec "$@"
+
+# exec "$@"
+#Join the consul cluster!
+sleep 10 #FIXME: try taking the sleep out
+exec consul agent -dev -bind="$(hostname -i)" -retry-join="$(cat /consulserver.d/serverip)"

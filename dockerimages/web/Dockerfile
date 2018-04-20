@@ -1,13 +1,11 @@
 FROM consul
 
-# Set one or more individual labels
 LABEL cabify.web.version="1.0"
 LABEL autor="FranciscoFregona"
 LABEL cabify.web.release-date="2018-04-19"
 LABEL cabify.web.version.is-production="false"
 
-#Propio de la app de cabify
-#Setup previo y de base
+#Cabify's app setup
 RUN apk add --update \
     python \
     py-pip \
@@ -18,7 +16,7 @@ EXPOSE 8181
 RUN mkdir -p /opt/cabify
 COPY cabify.py /opt/cabify
 
-#Rip del dockerfile de Consul, con el docker-entrypoint modificado.
+#Riped from Consul's dockerfile. Modified docker-entrypoint.sh.
 # Consul doesn't need root privileges so we run it as the consul user from the
 # entry point script. The entry point script also uses dumb-init as the top-level
 # process to reap any zombie processes created by Consul sub-processes.
