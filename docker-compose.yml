@@ -1,62 +1,57 @@
 version: '3'
-#FIXME: docker v18.03 ya soporta version: '3.6'
+#FIXME: docker v18.03 supports version:'3.6'
 networks:
   web:
     driver: overlay
-    attachable: True
+volumes:
+  consulserver.d:
 services:
   cabifyweb:
-   image: cabifyweb:v1.0
-   depends_on:
-     - cabifyweb
-   ports:
-     - 8181
-     - 8500
-   # command: ["agent"] #, "join=consul","-retry-join=consulserver" #agent -bind=<external ip> -retry-join=<root agent ip>
-   environment:
-     - SERVICE_PORTS=8181
-     - CONSUL_CLIENT_INTERFACE=eth2
-     # - CONSUL_BIND_INTERFACE=eth0
-   deploy:
-     replicas: 1
-     update_config:
-       parallelism: 5
-       delay: 10s
-     restart_policy:
-       condition: on-failure
-       max_attempts: 3
-       window: 120s
-   networks:
-     - web
-     - host
-  # consulserver:
-  #   image: consul
-  #   hostname: consul
-  #   ports:
-  #    - 8500
-  #   environment:
-  #    # - CONSUL_CLIENT_INTERFACE=eth0
-  #    - CONSUL_BIND_INTERFACE=eth2
-  #   # environment:
-  #   #   - "CONSUL_LOCAL_CONFIG={skip_leave_on_interrupt: true}"
-  #   command: ["agent", "-server"] #,"-bind=192.168.0.110", "-bootstrap-expect=5" ##referencia CMD ["agent", "-dev", "-client", "0.0.0.0"]
-  #   networks:
-  #     - web
-  #   deploy:
-  #     placement:
-  #       constraints: [node.role == manager]
-  # proxy:
-  #   image: dockercloud/haproxy
-  #   depends_on:
-  #     - cabifyweb
-  #   environment:
-  #     - BALANCE=leastconn
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   ports:
-  #     - 80:80
-  #   networks:
-  #     - web
-  #   deploy:
-  #     placement:
-  #       constraints: [node.role == manager]
+    image: cabifyweb:v1.0
+    depends_on:
+      - consulserver
+    ports:
+      - 8181
+    environment:
+      - SERVICE_PORTS=8181
+      - CONSUL_CLIENT_INTERFACE=eth0
+      - CONSUL_BIND_INTERFACE=eth0
+    deploy: 
+      replicas: 2
+      update_config:
+        parallelism: 5
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+        window: 120s
+    networks:
+      - web
+    volumes:
+      - consulserver.d:/consulserver.d
+  consulserver:
+    image: consulserver:v1.0
+    environment:
+     - CONSUL_BIND_INTERFACE=eth0
+    networks:
+      - web
+    volumes:
+      - consulserver.d:/consulserver.d
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  proxy:
+    image: dockercloud/haproxy
+    depends_on:
+      - cabifyweb
+    environment:
+      - BALANCE=leastconn
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+    networks:
+      - web
+    deploy:
+      placement:
+        constraints: [node.role == manager]
