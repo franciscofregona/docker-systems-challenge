@@ -88,7 +88,7 @@ __Upgrading of the solution, mid term: tooling and code__
 * First and foremost: if there is much more Ansible code within the tooling, I'd seriously consider something along the lines of [ansible-container](https://www.ansible.com/integrations/containers/ansible-container). I actually started to tackle this challenge with it but ran into issues I could not solve. Being able to re-use the codebase with no re-writing (which I had to do... bah, more like re-interpreting of the function of the roles into containers) is too good to pass.
 * My version of the solution needs some CI tooling. I think it is fine for an exercise or training in Docker, but in order to be able to scale up and out, I'd:
 ** Invest in Jenkins (or TravisCI or other CI tools) as a way to automate the process. Perhaps as a container in another stack.
-** Invest in automated testing of the solution, to keep at a minimum the issues and bugs. This would be launched by Jenkins after every commit to the codebase.
+** Invest in reinforcing the automated testing of the solution, to keep at a minimum the issues and bugs. I mean: This would be launched by Jenkins after every commit to the codebase.
 ** Add a Nomad container as means of service migration, specially if multiple cloud vendors are needed to provide redundancy. (Terraform comes in handy!)
 ** Monitoring: I favor the Graphite/Grafana stack for some fancy graphs and metrics.
  
